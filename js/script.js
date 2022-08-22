@@ -59,11 +59,11 @@ timer.start()
 
 
 class Slider {
-    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevBtn,nextBtn,countOfSlides = 1) {
+    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1) {
 
         this.slides = document.querySelectorAll(`${slidesAll}`),
-        this.prev = document.querySelector(`${prevBtn}`),
-        this.next = document.querySelector(`${nextBtn}`),
+        this.prevBtn = document.querySelector(`${prevButton}`),
+        this.nextBtn = document.querySelector(`${nextButton}`),
         this.total = totalBlock ? document.querySelector(`${totalBlock}`) : undefined,
         this.sliderName = sliderNameBlock ? document.querySelector(`${sliderNameBlock}`) : undefined,
         this.current = currentBlock ? document.querySelector(`${currentBlock}`) : undefined,
@@ -77,6 +77,8 @@ class Slider {
         this.slideIndex = 1;
         this.offset = 0;
     }
+
+
 
     onRes() {
 
@@ -103,7 +105,71 @@ class Slider {
         this.slidesField.style.transition = "0.5s all";
         this.slidesWrapper.style.overflow = "hidden";
     
-        this.next.addEventListener(`click`, () => {
+
+        /*
+        this.prevBtn.addEventListener(`click`, () => {
+            
+            if(this.slideIndex != 1){
+                
+                //this.prev.firstChild.style.cssText = 'stroke: red;'
+                //console.log(this.prev.querySelector(`path`))
+                //this.prev.querySelector(`path`).style.cssText = 'stroke: red;'
+
+                //this.slideIndex = this.slides.length - (this.countOfSlides - 1);
+                //this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+                this.slideIndex--;
+                this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+            }
+            if(this.slideIndex == 1) {
+                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
+            } else  this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+
+    
+            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+    
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
+            }
+        }) */
+/*
+        this.nextBtn.addEventListener(`click`, () => {
+            
+            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
+                //this.offset = 0;
+                //this.slideIndex = 1;
+            } else {
+                this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
+                this.slideIndex++;
+                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+            }
+            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)) {
+                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
+            }
+
+            
+            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+            
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
+            }
+        })   */ 
+    }
+
+    next() {
+        this.nextBtn.addEventListener(`click`, () => {
             
             if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
                 this.offset = 0;
@@ -117,18 +183,25 @@ class Slider {
 
             if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
            
-            if (this.slides.length < 10) {
-                this.current.textContent = `0${this.slideIndex}`
-            } else {
-                this.current.textContent = this.slideIndex;
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
             }
+
         })
-    
-        this.prev.addEventListener(`click`, () => {
+    }
+
+
+    prev() {
+        this.prevBtn.addEventListener(`click`, () => {
             
             if(this.slideIndex == 1){
+
                 this.slideIndex = this.slides.length - (this.countOfSlides - 1);
-                this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+               this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
                 
             } else {
                 this.slideIndex--;
@@ -139,16 +212,82 @@ class Slider {
 
             if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
     
-            if (this.slides.length < 10) {
-                this.current.textContent = `0${this.slideIndex}`
-            } else {
-                this.current.textContent = this.slideIndex;
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
             }
-    
         }) 
+    }
+
+
+}
+
+class Slider2 extends Slider{
+    next() {
+        this.nextBtn.addEventListener(`click`, () => {
+            
+            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
+            } else {
+                this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
+                this.slideIndex++;
+                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+            }
+            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)) {
+                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
+            }
+
+            
+            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+            
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
+            }
+        })  
+    }
+    prev() {
+        this.prevBtn.addEventListener(`click`, () => {
+            
+            if(this.slideIndex != 1){
+                this.slideIndex--;
+                this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+            }
+            if(this.slideIndex == 1) {
+                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
+            } else  this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
+
+    
+            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+    
+            if (this.current) {
+                if (this.slides.length < 10) {
+                    this.current.textContent = `0${this.slideIndex}`
+                } else {
+                    this.current.textContent = this.slideIndex;
+                }
+            }
+        })
     }
 }
 
+
+
+function sliderInit(slider) {
+    slider.init()
+    slider.next()
+    slider.prev()
+}
 
 const slider1Names = [
     `MEN'S WEAR`,
@@ -157,13 +296,13 @@ const slider1Names = [
 ]
 
 const slider1 = new Slider('.slider','.slider__sliders','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next')
-slider1.init()
+sliderInit(slider1)
 const slider2 = new Slider('.product-types__slider','.product-types__items','.product-types__item','','','','','#product-prev','#product-next',3)
-slider2.init()
-const slider3 = new Slider('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4)
-slider3.init()
-const slider4 = new Slider('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2)
-slider4.init()
+sliderInit(slider2)
+const slider3 = new Slider2('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4)
+sliderInit(slider3)
+const slider4 = new Slider2('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2)
+sliderInit(slider4)
 
 window.onresize = function() {
     slider1.onRes()
