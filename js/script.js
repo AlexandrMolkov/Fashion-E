@@ -59,7 +59,7 @@ timer.start()
 
 
 class Slider {
-    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1,sliderLoop = true) {
+    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1,sliderLoop = true,fixed = false) {
 
         this.slidesWrapper = document.querySelector(`${slider}`),
         this.slides =  this.slidesWrapper.querySelectorAll(`${slidesAll}`),
@@ -77,16 +77,21 @@ class Slider {
         this.slideIndex = 1;
         this.offset = 0;
         this.loop = sliderLoop;
+        this.fixed = fixed
     }
 
     onRes() {
 
-        this.width = window.getComputedStyle(this.slidesWrapper).width;
-        this.slides.forEach(slide=>{
-           slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
-        })
+        if (!this.fixed) {
 
-        this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+            this.width = window.getComputedStyle(this.slidesWrapper).width;
+            this.slides.forEach(slide=>{
+            slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
+            })
+
+            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+    
+        }
     }
 
     init() {
@@ -100,14 +105,24 @@ class Slider {
             }
         }
 
-        this.width = window.getComputedStyle(this.slidesWrapper).width;
 
-        this.slides.forEach(slide=>{
-            slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
-        })
+        if (!this.fixed) {
 
-        this.sizeOfSlide = 100 / this.countOfSlides
-        this.slidesField.style.width = (100 + ((this.slides.length - this.countOfSlides) * this.sizeOfSlide)) + '%';
+            this.width = window.getComputedStyle(this.slidesWrapper).width;
+
+            this.slides.forEach(slide=>{
+                slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
+                
+            })
+
+            this.sizeOfSlide = 100 / this.countOfSlides
+            this.slidesField.style.width = (100 + ((this.slides.length - this.countOfSlides) * this.sizeOfSlide)) + '%';
+        } else {
+            this.slidesField.style.width = (this.fixed * this.slides.length) + 'px';
+        }
+
+
+
 
         
         this.slidesField.style.display = "flex";
@@ -236,7 +251,7 @@ const slider1Names = [
     `CHILDREN'S WEAR`
 ]
 
-const slider1 = new Slider('.slider','.slider__sliders','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next')
+const slider1 = new Slider('.slider','.slider__sliders','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next',1,true,1920)
 slider1.init()
 const slider2 = new Slider('.product-types__slider','.product-types__items','.product-types__item','','','','','#product-prev','#product-next',3)
 slider2.init()
@@ -244,6 +259,7 @@ const slider3 = new Slider('.featured-products__slider','.featured-products__ite
 slider3.init()
 const slider4 = new Slider('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2,false)
 slider4.init()
+
 
 window.onresize = function() {
     slider1.onRes()

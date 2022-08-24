@@ -84,9 +84,13 @@ body {
 }
 
 .slider-container {
-  max-width: 1170px;
+  max-width: 80%;
   width: 100%;
   margin: 0 auto;
+}
+
+img {
+  width: 100%;
 }
 
 nav a:hover,
@@ -189,6 +193,10 @@ nav a:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.slider__img {
+  width: auto;
 }
 
 .slider__text-block {
@@ -702,13 +710,13 @@ nav a:focus {
   gap: 25px;
 }
 
-.product-types__items:not(:last-child) {
-  margin-right: 15px;
-}
-
 .product-types__item {
   text-align: center;
   position: relative;
+}
+
+.product-types__img {
+  width: 100%;
 }
 
 .product-types .button {
