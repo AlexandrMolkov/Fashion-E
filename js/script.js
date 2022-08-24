@@ -59,16 +59,16 @@ timer.start()
 
 
 class Slider {
-    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1) {
+    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1,sliderLoop = true) {
 
-        this.slides = document.querySelectorAll(`${slidesAll}`),
-        this.prevBtn = document.querySelector(`${prevButton}`),
-        this.nextBtn = document.querySelector(`${nextButton}`),
-        this.total = totalBlock ? document.querySelector(`${totalBlock}`) : undefined,
-        this.sliderName = sliderNameBlock ? document.querySelector(`${sliderNameBlock}`) : undefined,
-        this.current = currentBlock ? document.querySelector(`${currentBlock}`) : undefined,
         this.slidesWrapper = document.querySelector(`${slider}`),
-        this.slidesField = document.querySelector(`${slidesContainer}`),
+        this.slides =  this.slidesWrapper.querySelectorAll(`${slidesAll}`),
+        this.prevBtn = this.slidesWrapper.querySelector(`${prevButton}`),
+        this.nextBtn = this.slidesWrapper.querySelector(`${nextButton}`),
+        this.total = totalBlock ? this.slidesWrapper.querySelector(`${totalBlock}`) : undefined,
+        this.sliderName = sliderNameBlock ? this.slidesWrapper.querySelector(`${sliderNameBlock}`) : undefined,
+        this.current = currentBlock ? this.slidesWrapper.querySelector(`${currentBlock}`) : undefined,
+        this.slidesField = this.slidesWrapper.querySelector(`${slidesContainer}`),
 
         this.sliderNames = sliderNames,
         this.countOfSlides = countOfSlides
@@ -76,9 +76,8 @@ class Slider {
         this.width = window.getComputedStyle(this.slidesWrapper).width;
         this.slideIndex = 1;
         this.offset = 0;
+        this.loop = sliderLoop;
     }
-
-
 
     onRes() {
 
@@ -91,6 +90,15 @@ class Slider {
     }
 
     init() {
+        
+
+        if (this.total) {
+            if (this.slides.length < 10) {
+                this.total.textContent = `0${this.slides.length}`
+            } else {
+                this.total.textContent = this.slides.length;
+            }
+        }
 
         this.width = window.getComputedStyle(this.slidesWrapper).width;
 
@@ -101,193 +109,126 @@ class Slider {
         this.sizeOfSlide = 100 / this.countOfSlides
         this.slidesField.style.width = (100 + ((this.slides.length - this.countOfSlides) * this.sizeOfSlide)) + '%';
 
+        
         this.slidesField.style.display = "flex";
         this.slidesField.style.transition = "0.5s all";
         this.slidesWrapper.style.overflow = "hidden";
+        
     
 
-        /*
-        this.prevBtn.addEventListener(`click`, () => {
-            
-            if(this.slideIndex != 1){
+        
+        if(this.loop) {     
+  
+            this.prevBtn.addEventListener(`click`, () => {
                 
-                //this.prev.firstChild.style.cssText = 'stroke: red;'
-                //console.log(this.prev.querySelector(`path`))
-                //this.prev.querySelector(`path`).style.cssText = 'stroke: red;'
+                if(this.slideIndex == 1){
 
-                //this.slideIndex = this.slides.length - (this.countOfSlides - 1);
-                //this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
-                this.slideIndex--;
+                    this.slideIndex = this.slides.length - (this.countOfSlides - 1);
                 this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
-                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-            }
-            if(this.slideIndex == 1) {
-                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
-            } else  this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-
-    
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-    
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
+                    
                 } else {
-                    this.current.textContent = this.slideIndex;
+                    this.slideIndex--;
+                    this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
                 }
-            }
-        }) */
-/*
-        this.nextBtn.addEventListener(`click`, () => {
+        
+                this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+                if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+        
+                if (this.current) {
+                    if (this.slides.length < 10) {
+                        this.current.textContent = `0${this.slideIndex}`
+                    } else {
+                        this.current.textContent = this.slideIndex;
+                    }
+                }
+            }) 
+
+            this.nextBtn.addEventListener(`click`, () => {
+
+                if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
+                    this.offset = 0;
+                    this.slideIndex = 1;
+                } else {
+                    this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
+                    this.slideIndex++;
+                }
             
-            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
-                //this.offset = 0;
-                //this.slideIndex = 1;
-            } else {
+                this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+
+                if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+            
+                if (this.current) {
+                    if (this.slides.length < 10) {
+                            this.current.textContent = `0${this.slideIndex}`
+                    } else {
+                            this.current.textContent = this.slideIndex;
+                    }
+                }
+
+            })
+
+
+        } else {
+
+            this.prevBtn.addEventListener(`click`, () => {
+            
+                if(this.slideIndex != 1){
+                    this.slideIndex--;
+                    this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+                    this.nextBtn.disabled = false
+                }
+                if(this.slideIndex == 1) {
+                    this.prevBtn.disabled = true
+                } else  this.prevBtn.disabled = false
+    
+                this.slidesField.style.transform = `translateX(-${this.offset}%)`;
+    
+                if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+        
+                if (this.current) {
+                    if (this.slides.length < 10) {
+                        this.current.textContent = `0${this.slideIndex}`
+                    } else {
+                        this.current.textContent = this.slideIndex;
+                    }
+                }
+            })
+
+            this.nextBtn.addEventListener(`click`, () => {
+
                 this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
                 this.slideIndex++;
-                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-            }
-            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)) {
-                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
-            }
-
-            
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-            
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
-                } else {
-                    this.current.textContent = this.slideIndex;
+                this.prevBtn.disabled = false
+    
+                if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)) {
+                    this.nextBtn.disabled = true
                 }
-            }
-        })   */ 
-    }
-
-    next() {
-        this.nextBtn.addEventListener(`click`, () => {
-            
-            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
-                this.offset = 0;
-                this.slideIndex = 1;
-            } else {
-                this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
-                this.slideIndex++;
-            }
-            
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-           
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
-                } else {
-                    this.current.textContent = this.slideIndex;
-                }
-            }
-
-        })
-    }
-
-
-    prev() {
-        this.prevBtn.addEventListener(`click`, () => {
-            
-            if(this.slideIndex == 1){
-
-                this.slideIndex = this.slides.length - (this.countOfSlides - 1);
-               this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
+    
                 
-            } else {
-                this.slideIndex--;
-                this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
-            }
+                this.slidesField.style.transform = `translateX(-${this.offset}%)`;
     
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-    
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
-                } else {
-                    this.current.textContent = this.slideIndex;
+                if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
+                
+                if (this.current) {
+                    if (this.slides.length < 10) {
+                        this.current.textContent = `0${this.slideIndex}`
+                    } else {
+                        this.current.textContent = this.slideIndex;
+                    }
                 }
-            }
-        }) 
+
+            })
+
+        }
+
     }
 
-
-}
-
-class Slider2 extends Slider{
-    next() {
-        this.nextBtn.addEventListener(`click`, () => {
-            
-            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)){
-            } else {
-                this.offset = ((100 / this.slides.length) * this.slideIndex).toFixed(3)
-                this.slideIndex++;
-                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-            }
-            if(this.slideIndex == this.slides.length - (this.countOfSlides - 1)) {
-                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
-            }
-
-            
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-            
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
-                } else {
-                    this.current.textContent = this.slideIndex;
-                }
-            }
-        })  
-    }
-    prev() {
-        this.prevBtn.addEventListener(`click`, () => {
-            
-            if(this.slideIndex != 1){
-                this.slideIndex--;
-                this.offset = ((100 / this.slides.length) * (this.slideIndex - 1)).toFixed(3)
-                this.nextBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-            }
-            if(this.slideIndex == 1) {
-                this.prevBtn.querySelector(`path`).style.cssText = 'stroke: lightgrey;'
-            } else  this.prevBtn.querySelector(`path`).style.cssText = 'stroke: black;'
-
-    
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-
-            if (this.sliderName) this.sliderName.textContent = this.sliderNames[this.slideIndex - 1]
-    
-            if (this.current) {
-                if (this.slides.length < 10) {
-                    this.current.textContent = `0${this.slideIndex}`
-                } else {
-                    this.current.textContent = this.slideIndex;
-                }
-            }
-        })
-    }
 }
 
 
 
-function sliderInit(slider) {
-    slider.init()
-    slider.next()
-    slider.prev()
-}
+
 
 const slider1Names = [
     `MEN'S WEAR`,
@@ -296,13 +237,13 @@ const slider1Names = [
 ]
 
 const slider1 = new Slider('.slider','.slider__sliders','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next')
-sliderInit(slider1)
+slider1.init()
 const slider2 = new Slider('.product-types__slider','.product-types__items','.product-types__item','','','','','#product-prev','#product-next',3)
-sliderInit(slider2)
-const slider3 = new Slider2('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4)
-sliderInit(slider3)
-const slider4 = new Slider2('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2)
-sliderInit(slider4)
+slider2.init()
+const slider3 = new Slider('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4,false)
+slider3.init()
+const slider4 = new Slider('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2,false)
+slider4.init()
 
 window.onresize = function() {
     slider1.onRes()

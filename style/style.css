@@ -89,6 +89,12 @@ body {
   margin: 0 auto;
 }
 
+nav a:hover,
+nav a:focus {
+  border-bottom: 2px #535353 solid;
+  outline: 0;
+}
+
 .header {
   position: relative;
 }
@@ -306,6 +312,15 @@ body {
   font-size: 9px;
   min-width: 115px;
   min-height: 40px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.button:hover,
+.button:focus {
+  background-color: white;
+  color: #171717;
 }
 
 .side-social {
@@ -403,6 +418,12 @@ body {
   background-color: white;
   color: black;
   padding: 17px 38px;
+}
+
+.special__button:hover,
+.special__button:focus {
+  background-color: #2b2b2b;
+  color: white;
 }
 
 .timer {
@@ -611,6 +632,12 @@ body {
   letter-spacing: 0.2em;
 }
 
+.offers__item_w_100 .button:hover,
+.offers__item_w_100 .button:focus {
+  background-color: #2b2b2b;
+  color: white;
+}
+
 .offers__item-text {
   text-align: center;
   font-size: 18px;
@@ -710,6 +737,13 @@ body {
   min-height: 45px;
 }
 
+.product-types .button-types-prev:hover,
+.product-types .button-types-prev:focus,
+.product-types .button-types-next:hover,
+.product-types .button-types-next:focus {
+  background-color: #ffffff;
+}
+
 .product-types .button-types-prev {
   -webkit-transform: rotate(-90deg) translateX(-65%) translateY(-45%);
       -ms-transform: rotate(-90deg) translateX(-65%) translateY(-45%);
@@ -787,6 +821,14 @@ body {
   background-color: white;
   border: solid 2px #d9c8aa;
   padding: 20px 40px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.featured-products__button:hover,
+.featured-products__button:focus {
+  background-color: #d9c8aa;
 }
 
 .featured-products .button-types-prev,
@@ -798,6 +840,29 @@ body {
   border: 2px solid #d9d9d9;
   border-radius: 50%;
   top: 48%;
+}
+
+.featured-products .button-types-prev:hover,
+.featured-products .button-types-prev:focus,
+.featured-products .button-types-next:hover,
+.featured-products .button-types-next:focus {
+  border: 2px solid black;
+}
+
+.featured-products .button-types-prev:disabled,
+.featured-products .button-types-next:disabled {
+  border: 2px solid #d9d9d9;
+  cursor: default;
+}
+
+.featured-products .button-types-prev:disabled svg path,
+.featured-products .button-types-next:disabled svg path {
+  stroke: lightgray;
+}
+
+.featured-products .button-types-prev:not(:disabled) svg path,
+.featured-products .button-types-next:not(:disabled) svg path {
+  stroke: #171717;
 }
 
 .featured-products .button-types-prev {
@@ -839,6 +904,29 @@ body {
   border: 2px solid #d9d9d9;
   border-radius: 50%;
   top: 56%;
+}
+
+.blogs .button-blogs-prev:hover,
+.blogs .button-blogs-prev:focus,
+.blogs .button-blogs-next:hover,
+.blogs .button-blogs-next:focus {
+  border: 2px solid black;
+}
+
+.blogs .button-blogs-prev:disabled,
+.blogs .button-blogs-next:disabled {
+  border: 2px solid #d9d9d9;
+  cursor: default;
+}
+
+.blogs .button-blogs-prev:disabled svg path,
+.blogs .button-blogs-next:disabled svg path {
+  stroke: lightgray;
+}
+
+.blogs .button-blogs-prev:not(:disabled) svg path,
+.blogs .button-blogs-next:not(:disabled) svg path {
+  stroke: #171717;
 }
 
 .blogs .button-blogs-prev {
@@ -945,6 +1033,12 @@ body {
   color: black;
 }
 
+.columns a:hover,
+.columns a:focus {
+  border-bottom: 1px #535353 solid;
+  outline: 0;
+}
+
 .subscribe .button-subscribe {
   min-width: 198px;
   min-height: 70px;
@@ -953,6 +1047,15 @@ body {
   font-size: 14px;
   letter-spacing: 0.1em;
   margin-top: -15px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.subscribe .button-subscribe:hover,
+.subscribe .button-subscribe:focus {
+  background-color: white;
+  color: #171717;
 }
 
 .webp .special {
