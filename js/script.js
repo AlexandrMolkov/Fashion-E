@@ -12,8 +12,17 @@ addWebP(function (support) {
         document.querySelector(`body`).classList.add(`webp`);
     }
 })
+
+
+
+
 //============================================================ Timer
 
+
+
+
+
+{
 
 const hours = document.querySelector(`#timer-hours`)
 const minutes = document.querySelector(`#timer-minutes`)
@@ -49,8 +58,37 @@ const timer = {
 
 timer.start()
 
+}
 
 
+
+
+//============================================================ Burger
+
+
+
+{
+
+const burgers = document.querySelectorAll(`.burg`)
+
+burgers.forEach(function(elem) {
+    //console.log(elem)
+    elem.addEventListener('click', (e)=>{
+        const burg = e.target
+        
+        //element.preventDefault();
+        burg.classList.toggle(`open`)
+        burg.nextElementSibling.classList.toggle(`show`)
+        if(burg.classList.contains(`open`) && !burg.nextElementSibling.classList.contains(`navigation_pos_static`)){
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = "auto"
+        }
+
+    })
+})
+
+}
 
 
 
@@ -58,20 +96,24 @@ timer.start()
 
 
 
+{
+
 class Slider {
-    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1,sliderLoop = true,fixed = false) {
+    constructor(slider,slidesContainer,slidesAll,sliderNameBlock,sliderNames,totalBlock,currentBlock,prevButton,nextButton,countOfSlides = 1,countOfSlides768,sliderLoop = true,fixed = false) {
 
-        this.slidesWrapper = document.querySelector(`${slider}`),
-        this.slides =  this.slidesWrapper.querySelectorAll(`${slidesAll}`),
-        this.prevBtn = this.slidesWrapper.querySelector(`${prevButton}`),
-        this.nextBtn = this.slidesWrapper.querySelector(`${nextButton}`),
-        this.total = totalBlock ? this.slidesWrapper.querySelector(`${totalBlock}`) : undefined,
-        this.sliderName = sliderNameBlock ? this.slidesWrapper.querySelector(`${sliderNameBlock}`) : undefined,
-        this.current = currentBlock ? this.slidesWrapper.querySelector(`${currentBlock}`) : undefined,
-        this.slidesField = this.slidesWrapper.querySelector(`${slidesContainer}`),
+        this.slidesWrapper = document.querySelector(`${slider}`)
+        this.slides =  this.slidesWrapper.querySelectorAll(`${slidesAll}`)
+        this.prevBtn = this.slidesWrapper.querySelector(`${prevButton}`)
+        this.nextBtn = this.slidesWrapper.querySelector(`${nextButton}`)
+        this.total = totalBlock ? this.slidesWrapper.querySelector(`${totalBlock}`) : undefined
+        this.sliderName = sliderNameBlock ? this.slidesWrapper.querySelector(`${sliderNameBlock}`) : undefined
+        this.current = currentBlock ? this.slidesWrapper.querySelector(`${currentBlock}`) : undefined
+        this.slidesField = this.slidesWrapper.querySelector(`${slidesContainer}`)
 
-        this.sliderNames = sliderNames,
+        this.sliderNames = sliderNames
         this.countOfSlides = countOfSlides
+        this.countOfSlidesDefault = this.countOfSlides
+        this.countOfSlides768 = countOfSlides768
 
         this.width = window.getComputedStyle(this.slidesWrapper).width;
         this.slideIndex = 1;
@@ -84,18 +126,45 @@ class Slider {
 
         if (!this.fixed) {
 
-            this.width = window.getComputedStyle(this.slidesWrapper).width;
+            if(this.countOfSlides768 && window.innerWidth <= 768) {
+
+                this.countOfSlides = this.countOfSlides768;
+            }
+            if(this.countOfSlides768 && window.innerWidth > 768) {
+                
+                this.countOfSlides = this.countOfSlidesDefault;
+            } 
+
+
             this.slides.forEach(slide=>{
-            slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
+                slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
+                
             })
 
-            this.slidesField.style.transform = `translateX(-${this.offset}%)`;
-    
-        }
+            this.sizeOfSlide = 100 / this.countOfSlides
+            this.slidesField.style.width = (100 + ((this.slides.length - this.countOfSlides) * this.sizeOfSlide)) + '%';
+
+
+            this.width = window.getComputedStyle(this.slidesWrapper).width;
+            this.slides.forEach(slide=>{
+                slide.style.width = (+this.width.slice(0, this.width.length - 2) / this.countOfSlides) + 'px'; 
+            })
+
+            this.slidesField.style.transform = `translateX(0%)`;
+            this.slideIndex = 1
+
+            if (!this.loop){
+                this.nextBtn.disabled = false
+                this.prevBtn.disabled = true
+            }
+
+        }  
     }
 
+
+
+
     init() {
-        
 
         if (this.total) {
             if (this.slides.length < 10) {
@@ -108,6 +177,15 @@ class Slider {
 
         if (!this.fixed) {
 
+            if(this.countOfSlides768 && window.innerWidth <= 768) {
+
+                this.countOfSlides = this.countOfSlides768;
+            }
+            if(this.countOfSlides768 && window.innerWidth > 768) {
+                
+                this.countOfSlides = this.countOfSlidesDefault;
+            } 
+
             this.width = window.getComputedStyle(this.slidesWrapper).width;
 
             this.slides.forEach(slide=>{
@@ -117,12 +195,10 @@ class Slider {
 
             this.sizeOfSlide = 100 / this.countOfSlides
             this.slidesField.style.width = (100 + ((this.slides.length - this.countOfSlides) * this.sizeOfSlide)) + '%';
+
         } else {
             this.slidesField.style.width = (this.fixed * this.slides.length) + 'px';
         }
-
-
-
 
         
         this.slidesField.style.display = "flex";
@@ -130,8 +206,6 @@ class Slider {
         this.slidesWrapper.style.overflow = "hidden";
         
     
-
-        
         if(this.loop) {     
   
             this.prevBtn.addEventListener(`click`, () => {
@@ -208,7 +282,7 @@ class Slider {
                         this.current.textContent = this.slideIndex;
                     }
                 }
-            })
+            })            
 
             this.nextBtn.addEventListener(`click`, () => {
 
@@ -236,6 +310,7 @@ class Slider {
             })
 
         }
+    
 
     }
 
@@ -251,13 +326,15 @@ const slider1Names = [
     `CHILDREN'S WEAR`
 ]
 
-const slider1 = new Slider('.slider','.slider__sliders','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next',1,true,1920)
+
+/* const slider1 = new Slider('.slider','.slider__slides','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next',1,false,true,1920) */
+const slider1 = new Slider('.slider','.slider__slides','.slider__slide','.slider__name',slider1Names,'','.slider__number','#btn-slider-prev','#btn-slider-next',1,false,true)
 slider1.init()
-const slider2 = new Slider('.product-types__slider','.product-types__items','.product-types__item','','','','','#product-prev','#product-next',3)
+const slider2 = new Slider('.product-types__slider','.product-types__items','.product-types__item','','','','','#product-prev','#product-next',3,2)
 slider2.init()
-const slider3 = new Slider('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4,false)
+const slider3 = new Slider('.featured-products__slider','.featured-products__items','.featured-products__item','','','','','#featured-products-prev','#featured-products-next',4,2,false)
 slider3.init()
-const slider4 = new Slider('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2,false)
+const slider4 = new Slider('.blogs__slider','.blogs__slider-wrapper','.blogs__slide','','','','','#blogs-prev','#blogs-next',2,1,false)
 slider4.init()
 
 
@@ -268,7 +345,7 @@ window.onresize = function() {
     slider4.onRes()
 }
 
-
+}
 
 
 
