@@ -76,6 +76,32 @@ body {
   margin: 0 auto;
 }
 
+.slider__nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+  position: absolute;
+  z-index: 2;
+  bottom: 25px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.slider__nav-li {
+  width: 20px;
+  height: 5px;
+  background-color: white;
+  opacity: 0.3;
+}
+
+.slider__nav-li:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   font-family: "Raleway", sans-serif;
@@ -690,8 +716,8 @@ nav a:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 520px;
-  top: 20%;
+  max-width: 520px;
+  top: 13%;
   right: 34%;
   -webkit-transform: translate(50%);
       -ms-transform: translate(50%);
@@ -712,8 +738,8 @@ nav a:focus {
   letter-spacing: 0.4em;
 }
 
-.offers__item_w_100 .offers__item-content .offers__item-text_mb_42:last-of-type {
-  margin-bottom: 42px;
+.offers__item_w_100 .offers__item-content .offers__item-text_mb_35:last-of-type {
+  margin-bottom: 30px;
 }
 
 .offers__item_w_100 .button {
@@ -1069,6 +1095,9 @@ nav a:focus {
   position: relative;
   max-width: 572px;
   text-align: center;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .blogs__img {
@@ -1079,7 +1108,7 @@ nav a:focus {
   background-color: white;
   text-align: center;
   position: absolute;
-  top: 75%;
+  top: 85%;
   padding-top: 20px;
   padding-bottom: 20px;
   width: 89%;
@@ -1160,7 +1189,7 @@ nav a:focus {
 
 .subscribe .button-subscribe {
   min-width: 198px;
-  min-height: 70px;
+  min-height: 50px;
   background-color: #2b2b2b;
   color: white;
   font-size: 14px;
